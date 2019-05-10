@@ -1,0 +1,28 @@
+#include<opencv2/opencv.hpp>
+
+using namespace cv;
+using namespace std;
+
+int main()
+{
+	CascadeClassifier face_cascade;
+	String face_cascade_model = "D:/opencv/sources3.4.5/data/haarcascades/haarcascade_frontalface_alt.xml";
+	face_cascade.load(face_cascade_model);
+
+	Mat lenaColor = imread("lena.jpg");
+	Mat lena;
+	cvtColor(lenaColor,lena, COLOR_BGR2GRAY);
+	equalizeHist(lena, lena);
+
+	std::vector<Rect> faces;
+	face_cascade.detectMultiScale(lena,faces);
+
+	for (size_t i = 0; i < faces.size(); i++) {
+		rectangle(lenaColor,faces[i],Scalar(255,0,0));
+	}
+	imshow("result",lenaColor);
+
+
+	waitKey(0);
+	return 0;
+}
